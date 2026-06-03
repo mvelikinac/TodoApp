@@ -24,14 +24,15 @@ public class ThemeService(IJSRuntime js)
 
     public async Task ToggleAsync()
     {
-        CurrentTheme = CurrentTheme == Theme.Light ? Theme.Dark : Theme.Light;
+        var newTheme = CurrentTheme == Theme.Light ? Theme.Dark : Theme.Light;
         try
         {
-            await js.InvokeVoidAsync("todoTheme.setTheme", CurrentTheme == Theme.Dark ? "dark" : "light");
+            await js.InvokeVoidAsync("todoTheme.setTheme", newTheme == Theme.Dark ? "dark" : "light");
+            CurrentTheme = newTheme;
         }
         catch
         {
-            // Non-critical — UI still reflects the in-memory toggle
+            // JS interop unavailable — keep current theme to avoid DOM desync
         }
     }
 }

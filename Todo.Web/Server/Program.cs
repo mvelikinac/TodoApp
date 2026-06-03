@@ -1,4 +1,5 @@
 using Todo.Web.Client;
+using Todo.Web.Client.Services;
 using Todo.Web.Server;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDataProtection(o => o.ApplicationDiscriminator = "TodoApp");
 
 // Must add client services
 builder.Services.AddScoped<TodoClient>();
+builder.Services.AddScoped<ThemeService>();
 
 builder.Services.AddRazorComponents()
                 .AddInteractiveWebAssemblyComponents();
