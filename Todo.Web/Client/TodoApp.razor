@@ -1,4 +1,11 @@
 ﻿@inject TodoClient Client
+@inject ThemeService ThemeService
+
+<div style="position:fixed; top:0.75rem; right:1rem; z-index:1050;">
+    <button class="btn btn-outline-secondary btn-sm" aria-label="Toggle theme" title="Toggle theme" @onclick="ToggleTheme">
+        @(ThemeService.CurrentTheme == Theme.Dark ? "☀️" : "🌙")
+    </button>
+</div>
 
 @if (!string.IsNullOrEmpty(CurrentUser))
 {
@@ -17,12 +24,16 @@ else
 }
 
 @code {
-    [Parameter] 
+    [Parameter]
     public string? CurrentUser { get; set; }
 
     [Parameter]
     public string[] SocialProviders { get; set; } = Array.Empty<string>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+    }
 
     void HandleLogin(string newUsername)
     {
@@ -35,5 +46,10 @@ else
         {
             CurrentUser = null;
         }
+    }
+
+    async Task ToggleTheme()
+    {
+        await ThemeService.ToggleAsync();
     }
 }
