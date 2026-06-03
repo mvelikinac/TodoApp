@@ -11,6 +11,22 @@
     <meta charset="utf-8" />
     <title>Todo App</title>
     <base href="/" />
+    <script>
+        try {
+            window.todoTheme = {
+                getTheme: function () {
+                    try { return localStorage.getItem('theme') || 'light'; } catch (e) { return 'light'; }
+                },
+                setTheme: function (theme) {
+                    try { localStorage.setItem('theme', theme); } catch (e) { }
+                    document.documentElement.setAttribute('data-bs-theme', theme);
+                }
+            };
+            document.documentElement.setAttribute('data-bs-theme', window.todoTheme.getTheme());
+        } catch (e) {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+        }
+    </script>
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
     <link href="css/app.css" rel="stylesheet" />
 </head>
